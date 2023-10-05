@@ -1,75 +1,60 @@
-import { BsCart3, BsMoonFill, BsSunFill } from "react-icons/bs";
-import { FaBarsStaggered } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
-import NavLinks from "./NavLinks";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { Slide } from "react-awesome-reveal";
+import instaLogo from "../assets/instagram_logo.svg";
+import faceLogo from "../assets/facebook_logo.svg";
 
-const themes = {
-  autumn: "light",
-  halloween: "dark",
-};
-
-const getThemeFromLocalStorage = () => {
-  return localStorage.getItem("theme" || themes.light);
-};
+const data = [
+  {
+    name: "Home",
+    to: "#",
+  },
+  {
+    name: "About",
+    to: "#about",
+  },
+  {
+    name: "Why Us?",
+    to: "#advantages",
+  },
+  {
+    name: "Our Team",
+    to: "#team",
+  },
+  {
+    name: "Contact",
+    to: "#contact",
+  },
+];
 
 function Navbar() {
-  const [theme, setTheme] = useState(getThemeFromLocalStorage());
-  const handleTheme = () => {
-    const { autumn, halloween } = themes;
-    const newTheme = theme === halloween ? autumn : halloween;
-    document.documentElement.setAttribute("data-theme", theme);
-    setTheme(newTheme);
-  };
-
-  const { numItemsInCart } = useSelector((state) => state.cartState);
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
   return (
-    <nav className="bg-base-200">
-      <div className="navbar mx-auto max-w-6xl px-8 ">
-        <div className="navbar-start">
-          <NavLink
-            to="/"
-            className="hidden btn lg:flex btn-primary text-3xl items-center"
-          >
-            c
-          </NavLink>
-          <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
-              <FaBarsStaggered className="h-6 w-6" />
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content z-[1] mt-3 p-2 shadow bg-base-200"
-            >
-              <NavLinks />
-            </ul>
-          </div>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal gap-2">
-            <NavLinks />
-          </ul>
-        </div>
-        <div className="navbar-end">
-          <label className="swap swap-rotate">
-            <input type="checkbox" onClick={handleTheme} />
-            <BsSunFill className="swap-on h-4 w-4" />
-            <BsMoonFill className="swap-off h-4 w-4" />
-          </label>
-          <NavLink to="/cart" className="btn btn-circle btn-md ml-4">
-            <div className="indicator">
-              <BsCart3 className="w-6 h-6" />
-              <span className="badge badge-sm badge-primary indicator-item">
-                {numItemsInCart}
-              </span>
+    <nav className="sticky z-[999] top-0 bg-white bg-opacity-30 backdrop-filter backdrop-blur-md">
+      <div className="myContainer">
+        <div className="flex items-center justify-between pt-[30px] pb-[26px] mobileLg:flex-col">
+          <Slide direction="down" duration={2500}>
+            <div className="flex space-x-4  items-center">
+              {data.map((link, index) => (
+                <div key={index}>
+                  <a
+                    href={link.to}
+                    className="nav relative text-white font-krub font-bold"
+                  >
+                    {link.name}
+                  </a>
+                  <div className="w-[1px] h-[19px] [&:not(:last-child)]:bg-darkGray"></div>
+                </div>
+              ))}
             </div>
-          </NavLink>
+          </Slide>
+          <Slide direction="down" duration={2500}>
+            <div className="flex items-center gap-x-6 mobileLg:mt-4">
+              <a href="https://www.instagram.com/" target={"_blank"}>
+                <img src={instaLogo} alt="instagram logo" />
+              </a>
+              <a href="https://www.facebook.com/" target={"_blank"}>
+                <img src={faceLogo} alt="instagram logo" />
+              </a>
+            </div>
+          </Slide>
         </div>
       </div>
     </nav>
